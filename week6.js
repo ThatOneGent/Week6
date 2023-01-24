@@ -63,7 +63,7 @@ class Deck {
 
         let deckSize = 0; // variable to store size of deck
         let cardSuits = ['diamond','club','spade','heart'];
-        let cardValue = [1,2,3,4,5,6,7,8,9,'Jack','Queen','King','Ace'];
+        let cardValue = [2,3,4,5,6,7,8,9,10,'Jack','Queen','King','Ace'];
        // for(let sizeIndex =1; sizeIndex <= deckSize; sizeIndex++){  // loop through deck size
             for(let suitIndex =0; suitIndex < cardSuits.length;suitIndex++){   //loop through the card suits
                     for(let valueIndex =0; valueIndex < cardValue.length;valueIndex++){
