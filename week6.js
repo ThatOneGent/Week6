@@ -32,7 +32,7 @@ Pre build main deck with 53 Cards based off card class.
 class Card{
     constructor(suit, cValue, tValue){
         this.suit = suit; // card suit = Diamond,Club,Spade,Heart
-        this.cValue = cValue; // card value = 1-9, Jack, Queen, King, Ace
+        this.cValue = cValue; // card value = 2-10, Jack, Queen, King, Ace
         this.tValue = tValue; // cards back end value = 1-13 --- used for comparison scoreing.
     }
 
@@ -40,12 +40,24 @@ class Card{
 
 class Player{
     constructor(name){
-        this.name = name; //Player name
+
+        this.name = this.whatsMyName(); //Player name
+
         this.handDeck= []; // Array to hold the deck/hand
         this.currScore = 0; // current score that will go up as game is played
       //  this.disDeck =[]; //discard deck to keep track of cards as compared/played -- not needed
+
     }
 
+        // I wanted to generate a random name for the player each time it's created, so nothing needs to be passed in.
+    whatsMyName(){
+
+        let nameArray=['Al', 'Lin', 'Mark', 'Tim', 'Landon', 'Mendy', 'Kenzie', 'Charlie', 'Chip', 'Corre', 'Appy', 'Twix'];
+        let randomNameSelect = nameArray[Math.floor(Math.random() * nameArray.length)];
+
+        return randomNameSelect;
+
+    }
 
 } // End Player Class
 
@@ -62,7 +74,7 @@ class Deck {
         //static? (Easy) or programmatic for future adjustments to suit/value adjustments?(Less Easy)
 
         let deckSize = 0; // variable to store size of deck
-        let cardSuits = ['diamond','club','spade','heart'];
+        let cardSuits = ['Diamond','Club','Spade','Heart'];
         let cardValue = [2,3,4,5,6,7,8,9,10,'Jack','Queen','King','Ace'];
        // for(let sizeIndex =1; sizeIndex <= deckSize; sizeIndex++){  // loop through deck size
             for(let suitIndex =0; suitIndex < cardSuits.length;suitIndex++){   //loop through the card suits
@@ -93,6 +105,7 @@ class Deck {
         player2.handDeck = this.deckContents.splice(-splicePoint); // splice second half
 
         //output test of split decks
+
         console.log("player 1");
         console.log(player1.handDeck.length);
         console.log(player1.handDeck);
@@ -136,7 +149,7 @@ class Deck {
 class thisMeansWar{
 
     constructor(){
-        // make new player 1
+        //make new player 1
         this.player1 = new Player('Player1');
         //make new player 2
         this.player2 = new Player('Player2');
@@ -155,6 +168,10 @@ class thisMeansWar{
         console.log(this.mainDeck.deckContents);
         this.mainDeck.splitDeck(this.player1,this.player2);
 
+        console.log(` Let the games begin!!
+    
+It's ${this.player1.name} Versus ${this.player2.name}!
+        `);
                 
         //iterate through two player's information
         
@@ -168,9 +185,8 @@ class thisMeansWar{
             console.log("Players have different number of cards, check deck and start over");
         }
 
-        console.log("Final score!!");
-        console.log(`
-        
+        console.log(" -----  Final score!! ---- ");
+        console.log(`     
         Player 1 = ${this.player1.currScore}
         Player 2 = ${this.player2.currScore}      
         `);
@@ -189,22 +205,33 @@ class thisMeansWar{
         //compare tValue of both players, higher player hand is awarded points and added to their currScore
         //output Suit,cValue, currScore for each player
         //Astrisk to mark who won the round? 
+        console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n" +
+            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s\n");
 
         if(this.player1.handDeck[index].tValue > this.player2.handDeck[index].tValue){
             this.player1.currScore += 1;
-            console.log(this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"'s vs "+
-            this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"'s" + " ---- Player 1 wins (Score: "
-            + this.player1.currScore+")");
+            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n" +
+            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s" + "\n ---- Player 1 wins (Current Score: "
+            + this.player1.currScore+")"); */
+
+            console.log(` ---- ${this.player1.name} wins ----\n`);
+
         }else if(this.player1.handDeck[index].tValue < this.player2.handDeck[index].tValue){  
             this.player2.currScore += 1;
-            console.log(this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"'s vs "+
-            this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"'s" + " ---- Player 2 wins (Score: "
-            + this.player2.currScore+")");
+
+            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n"+
+            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s" + "\n ---- Player 2 wins (Current Score: "
+            + this.player2.currScore+")"); */
+
+            console.log(` ---- ${this.player2.name} wins ----\n`);
         } else{
-            console.log(this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"'s vs "+
-            this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"'s" + " ---- TIE!");
+            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s\n"+
+            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"'s" + "\n TIE!"); */
+            console.log("---- TIE!! ----\n");
         }
-    
+        
+        console.log("Current Score -- " + this.player1.name + ": "+ this.player1.currScore+"    "+this.player2.name + ": "+ this.player2.currScore);
+
     } // end of Card Compare Method
 
 } // End of thisMeansWar Class
