@@ -11,23 +11,43 @@ describe('myFunctions', function(){
         it('should shuffle array contents',function(){
 
             testArray= {deckContents: [1,2,3,4,5,'a','b','c']};
-            var myClass = new Deck();
-            var myMethod = myClass.shuffleDeck(testArray.deckContents);  
+            let myClass = new Deck();
+            let myMethod = myClass.shuffleDeck(testArray.deckContents);  
             
-            var shufArray = 0;
+            //let shufArray = 0;
             expect(testArray).to.not.equal(myMethod);
-            
+
               //  .then(function () {
               //   console.log("Assertion Passed");
                     //});
 
             //console.log(myMethod);
         }); 
+
 /* 
         it('should throw an error if first param is not a string',function(){
             expect(function(){
                 doSomething(5,5);
             }).to.throw(Error);
         }) */
+    });
+
+
+    describe('#createDeck',function(){
+            const deckTest = new Deck();
+
+        it('should create a deck from deck class', function(){
+            //const deckTest = new Deck();
+            deckTest.createDeck();
+            expect(deckTest).to.be.instanceOf(Deck);
+            //expect(deckTest.deckContents.length).to.equal(52);
+
+        });
+        it('should contain 52 cards', function(){
+
+            expect(deckTest.deckContents.length).to.equal(52);
+
+        });
+
     });
 });
