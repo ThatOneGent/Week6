@@ -64,35 +64,38 @@ class Player{
 class Deck {
 
     constructor(){
-        this.deckContents = []; // array to hold variouds cards
+        this.deckContents = []; // array to hold various cards created
     }
 
-    //create a deck
+    //create a deck method
     createDeck(){
 
-        //create 52 cards based off suit, cValue, and tValue?
-        //static? (Easy) or programmatic for future adjustments to suit/value adjustments?(Less Easy)
+        //create 52 cards based off suit, cValue, and tValue
+        //dynamic in the sense that sutis, and cValues are changeable
+        //carValue must be in the order of lowest to highest (Ace is worth the most)
 
-        let deckSize = 0; // variable to store size of deck
-        let cardSuits = ['Diamond','Club','Spade','Heart'];
+        let deckSize = 0; // variable to store size of deck // Only used in testing output
+        let cardSuits = ['Diamond','Club','Spade','Heart'];  
         let cardValue = [2,3,4,5,6,7,8,9,10,'Jack','Queen','King','Ace'];
-       // for(let sizeIndex =1; sizeIndex <= deckSize; sizeIndex++){  // loop through deck size
+
+       
             for(let suitIndex =0; suitIndex < cardSuits.length;suitIndex++){   //loop through the card suits
-                    for(let valueIndex =0; valueIndex < cardValue.length;valueIndex++){
+
+                    for(let valueIndex =0; valueIndex < cardValue.length;valueIndex++){ //loopthrough all cValues
+                        
+                        //create a card with current Card suit, cardValue, and INDEX to set tValue
+                        //valueIndex+1 because it will start at 0.
                         this.deckContents.push(new Card(cardSuits[suitIndex],cardValue[valueIndex],valueIndex+1));
                         
-
                     }// end value loop
             } //end suit loop
-            
-        
-      //  } // end size loop
+
 
       //output to test results
 
-      console.log(this.deckContents);
+     /*  console.log(this.deckContents);
       console.log(this.deckContents.length);
-      deckSize = this.deckContents.length;
+      deckSize = this.deckContents.length; */
 
     }  // end createDeck Method
  
@@ -105,16 +108,13 @@ class Deck {
         player2.handDeck = this.deckContents.splice(-splicePoint); // splice second half
 
         //output test of split decks
-
+/* 
         console.log("player 1");
         console.log(player1.handDeck.length);
         console.log(player1.handDeck);
         console.log("player 2");
         console.log(player2.handDeck.length);
-        console.log(player2.handDeck);
-
-        // return // deck 1 and deck 2? or push into player deck?
-
+        console.log(player2.handDeck); */
 
     } // End splitDeck Method
 
@@ -123,16 +123,17 @@ class Deck {
 
     shuffleDeck(array){
 
-        //random number based on length of deck, pop/push into new array,return new array into old deck? 
-        //  deckName=deckName.shuffleDeck(deckName) ???? is that possible??
 
          /*      Random shuffle of array based off   Fisher-Yates Shuffle         */
         let curId = array.length;
+
              // There remain elements to shuffle
         while (0 !== curId) {
+
              // Pick a remaining element
             let randId = Math.floor(Math.random() * curId);
             curId--;
+
              // Swap it with the current element.
             let tmp = array[curId];
             array[curId] = array[randId];
@@ -145,7 +146,7 @@ class Deck {
 
 } // End Deck Class
 
-
+//main game class contains game methods
 class thisMeansWar{
 
     constructor(){
@@ -160,14 +161,21 @@ class thisMeansWar{
     
 
     fight(){
+        //create the decContents of mainDeck
         this.mainDeck.createDeck();
-        console.log("Main deck made");
-        console.log(this.mainDeck.deckContents);
+        //console.log("Main deck made");
+        //console.log(this.mainDeck.deckContents);
+
+        //shuffle main deck of cards
         this.mainDeck.deckContents = this.mainDeck.shuffleDeck(this.mainDeck.deckContents); 
-        console.log("Deck Shuffled");
-        console.log(this.mainDeck.deckContents);
+        //console.log("Main Deck Shuffled");
+        //console.log(this.mainDeck.deckContents);
+
+        //split the deck between thw two players
         this.mainDeck.splitDeck(this.player1,this.player2);
 
+
+        //start the console information of the game
         console.log(` Let the games begin!!
     
 It's ${this.player1.name} Versus ${this.player2.name}!
@@ -175,21 +183,29 @@ It's ${this.player1.name} Versus ${this.player2.name}!
                 
         //iterate through two player's information
         
-        //if both players have equal cards?
-        //cycle through hand length calling card compare passing index      
+        //basic if to makesure hands are equal in length and end game if it's not
         if(this.player1.handDeck.length == this.player2.handDeck.length){
+
+                //cycle through hand length calling card compare passing index 
                 for(let i = 0; i < this.player1.handDeck.length; i++){
+                    //call cardCompare and pass current index placement
                     this.cardCompare(i);
                 }
+
         }else{
             console.log("Players have different number of cards, check deck and start over");
+            return;
         }
+
+        //final score output block with player scores
 
         console.log(" -----  Final score!! ---- ");
         console.log(`     
         Player 1 = ${this.player1.currScore}
         Player 2 = ${this.player2.currScore}      
         `);
+
+        // if statement outputs who won the game
         if(this.player1.currScore>this.player2.currScore){
             console.log("********** Player 1 Wins!!!!! ***********")
         } else if(this.player1.currScore<this.player2.currScore){
@@ -204,80 +220,37 @@ It's ${this.player1.name} Versus ${this.player2.name}!
         //use index to compare player 1 and 2
         //compare tValue of both players, higher player hand is awarded points and added to their currScore
         //output Suit,cValue, currScore for each player
-        //Astrisk to mark who won the round? 
+        
+        //output the hand that has been drawn by both
         console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n" +
             this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s\n");
 
+        //if statement outputting who owon the round and adding to their score
         if(this.player1.handDeck[index].tValue > this.player2.handDeck[index].tValue){
-            this.player1.currScore += 1;
-            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n" +
-            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s" + "\n ---- Player 1 wins (Current Score: "
-            + this.player1.currScore+")"); */
 
-            console.log(` ---- ${this.player1.name} wins ----\n`);
+            this.player1.currScore += 1; // add to score
+            console.log(` ---- ${this.player1.name} wins ----\n`); // player1 name wins
 
         }else if(this.player1.handDeck[index].tValue < this.player2.handDeck[index].tValue){  
-            this.player2.currScore += 1;
 
-            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s \n"+
-            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"s" + "\n ---- Player 2 wins (Current Score: "
-            + this.player2.currScore+")"); */
+            this.player2.currScore += 1;    // add to score
+            console.log(` ---- ${this.player2.name} wins ----\n`); //player 2 name wins
 
-            console.log(` ---- ${this.player2.name} wins ----\n`);
         } else{
-            /* console.log(this.player1.name + " draws: " + this.player1.handDeck[index].cValue +" of "+ this.player1.handDeck[index].suit+"s\n"+
-            this.player2.name + " draws: " + this.player2.handDeck[index].cValue +" of "+ this.player2.handDeck[index].suit+"'s" + "\n TIE!"); */
-            console.log("---- TIE!! ----\n");
+ 
+            console.log("---- TIE!! ----\n"); // tie, no score increase or output of names
         }
         
+        //output current score of each player and end of hand/round
         console.log("Current Score -- " + this.player1.name + ": "+ this.player1.currScore+"    "+this.player2.name + ": "+ this.player2.currScore);
 
     } // end of Card Compare Method
 
 } // End of thisMeansWar Class
 
-/*
-// This probably should be a class that then runs the whole gravy boat... similar to the "menu app"
-
-function thisMeansWar(player1,player2){
-    
-    //iterate through two player's information
-    // iterate through player hand deck... pass in index value cardCompare
-    //based off handDeckLength
-    //maybe confirm both Hands are same length as a check... should always be true, but if deck isnt even...
-
-}
-*/
-
-let Start = new thisMeansWar();
-Start.fight();
 
 
+let Start = new thisMeansWar();//declare / intialize the game
 
-////let test= new Deck();
-/*
-test.createDeck();
-test.deckContents=test.shuffleDeck(test.deckContents);
-console.log("SHUFFLED DECK");
-console.log(test.deckContents);
-*/
-//initialize player 1
-//initialize player 2
-//initialize mainDeck
-    //create mainDeckContents
-//shuffle mainDeckContents
-//Split deck between two players
-//Start the game of war
-
-
-//iterate through the two deck arrays comparing the tValues.
-//this can be a large function
-//with smaller functions called within for hte actual comparison? or just embedded in the War function itself?
-
-//Call thisMeansWar for player1,player2
-
-
-//each iteration will output player 1 card, player 2 card, current score.
-// maybe format it to output in a column?
-//winner fanfare.
+Start.fight(); //Start the game by calling fight method.
 
