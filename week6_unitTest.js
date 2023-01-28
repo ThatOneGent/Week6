@@ -6,15 +6,30 @@ describe('myFunctions', function(){
 
         it('should shuffle array contents',function(){
             // Test array created to mimic deck
-            testArray= {deckContents: [1,2,3,4,5,'a','b','c']};
+            let testDeck1 = new Deck();
             // deck created based off class
-            let myClass = new Deck();
-            //making them match
-            myClass.deckContents=testArray.deckContents;
-            //shuffling created deck
-            let myMethod = myClass.shuffleDeck(testArray.deckContents);  
+            let testDeck2 = new Deck();
+
+            testDeck1.createDeck();
+            testDeck2.createDeck();
+
+            testDeck2.deckContents = testDeck2.shuffleDeck(testDeck2.deckContents);
+        
+
+
+            //shuffling created deckContents
+            //myClass.deckContents = myClass.shuffleDeck(myClass.deckContents);  
+
+
+           // let myMethod = myClass.shuffleDeck(myClass.deckContents);  
             //running expected unit test
-            expect(testArray).to.not.equal(myMethod);
+
+            expect(testDeck1.deckContents).to.not.equal(testDeck2.deckContents);
+            console.log(testDeck1);
+            console.log(testDeck2);
+            //expect(testArray.deckContents).to.not.equal(myClass.deckContents);
+
+
 
 
         }); 
